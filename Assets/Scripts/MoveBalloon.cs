@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class MoveBalloon : MonoBehaviour
 {
     [SerializeField] private int speed;
+    [SerializeField] private int health;
     private Vector2 velocity;
     private Rigidbody2D rb;
     void Start()
@@ -13,8 +14,10 @@ public class MoveBalloon : MonoBehaviour
 
     void Update()
     {
+        Debug.Log("Player health");
+        Debug.Log(health);
         // Use left and right arrows, or the A and D keys to move
-        if (Input.GetKey(KeyCode.A) || Input.GetKeyKeyCode.LeftArrow)){
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)){ 
             velocity = new Vector2(-1.0f, 0.0f) * Time.fixedDeltaTime * speed;
             rb.MovePosition(rb.position + velocity);
         }
@@ -23,4 +26,11 @@ public class MoveBalloon : MonoBehaviour
             rb.MovePosition(rb.position + velocity);
         }
     }
+
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        Debug.Log("Collided with Hazard");
+        health -= 1;
+    }
+
 }
