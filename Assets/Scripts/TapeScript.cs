@@ -23,6 +23,9 @@ public class TapeScript : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     }
 
 
-
+    void IPointerUpHandler.OnPointerUp(PointerEventData eventData)
+    {
+        Debug.Log("Tape Released");
+    }
 
 }
