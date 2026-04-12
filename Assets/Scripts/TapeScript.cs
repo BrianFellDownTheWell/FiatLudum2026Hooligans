@@ -19,6 +19,11 @@ public class TapeScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     private Vector3 originalPosition;
 
     [SerializeField] private List<RectTransform> successZones = new List<RectTransform>();
+    
+    // initially this is true becuaase this guy is the source. otherwise when we drag it becomes a duplicate child guy
+    private bool isTapeSource = true;
+    private RectTransform currentDragGuy;
+    private TapeScript activeDragScript;
 
 
     private void Awake()
@@ -62,7 +67,25 @@ public class TapeScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
             return;
         }
 
-        rectTransform.SetAsLastSibling();
+
+        if (isTapeSource)
+        {
+            // Create a duplicate of this tape
+            GameObject duplicate = Instantiate(gameObject, dragArea);
+            activeDragScript = duplicate.GetComponent<TapeScript>();
+            currentDragGuy = duplicate.GetComponent<RectTransform>();
+
+            activeDragScript.isTapeSource = false;
+            activeDragScript.originalPosition = currentDragGuy.localPosition;
+            activeDragScript.successZones = successZones;
+            currentDragGuy.SetAsLastSibling();
+            
+        }
+        else
+        {
+            currentDragGuy = rectTransform;
+            rectTransform.SetAsLastSibling();
+        }
         
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
             dragArea,
@@ -70,13 +93,13 @@ public class TapeScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
             eventData.pressEventCamera,
             out Vector2 localPointerPosition))
         {
-            pointerOffset = rectTransform.localPosition - (Vector3)localPointerPosition;
+            pointerOffset = currentDragGuy.localPosition - (Vector3)localPointerPosition;
         }
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (dragArea == null)
+        if (dragArea == null || currentDragGuy == null)
         {
             return;
         }
@@ -91,7 +114,7 @@ public class TapeScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         }
 
         Vector3 targetLocalPosition = localPointerPosition + pointerOffset;
-        rectTransform.localPosition = targetLocalPosition;
+        currentDragGuy.localPosition = targetLocalPosition;
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -102,11 +125,20 @@ public class TapeScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
             if (RectTransformUtility.RectangleContainsScreenPoint(zone, eventData.position, eventData.pressEventCamera))
             {
                 Vector3 zoneCenter = zone.localPosition;
-                rectTransform.localPosition = zoneCenter;
+                currentDragGuy.localPosition = zoneCenter;
+                activeDragScript = null;
+                currentDragGuy = null;
                 return;
             }
         }
         // If not snapped to any zone, return to original position
-        rectTransform.localPosition = originalPosition;
+
+        if (!isTapeSource)
+        {
+            Destroy(currentDragGuy.gameObject);
+        }
+        else {
+            currentDragGuy.localPosition = originalPosition;
+        }
     }
 }
