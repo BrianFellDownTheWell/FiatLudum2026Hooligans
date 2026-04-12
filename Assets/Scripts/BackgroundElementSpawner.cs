@@ -32,7 +32,7 @@ public class BackgroundElementSpawner : MonoBehaviour
         }
 
         float randomX = Random.Range(-xRange, xRange);
-        Vector3 spawnPosition = new Vector3(randomX, transform.position.y, 0);
+        Vector3 spawnPosition = new Vector3(randomX, transform.position.y, transform.position.z);
         Debug.Log("Spawn triggered at: " + Time.time);
         Instantiate(backgroundElement, spawnPosition, Quaternion.identity);
     }
