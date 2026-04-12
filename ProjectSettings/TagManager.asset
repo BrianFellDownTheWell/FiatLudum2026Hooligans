@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - BackgroundElement
+  - Checkpoint
   layers:
   - Default
   - TransparentFX
