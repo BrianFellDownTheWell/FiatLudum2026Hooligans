@@ -24,13 +24,13 @@ public class Spawner : MonoBehaviour
     {
         int hazardCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
 
-        if (hazardCount >= 15)
+        if (hazardCount >= 7)
         {
             return;
         }
 
         float randomX = Random.Range(-xRange, xRange);
-        Vector3 spawnPosition = new Vector3(randomX, transform.position.y, 0);
+        Vector3 spawnPosition = new Vector3(randomX, transform.position.y + 10f, 0);
         Debug.Log("Spawn triggered at: " + Time.time);
         Instantiate(hazard, spawnPosition, Quaternion.identity);
     }
