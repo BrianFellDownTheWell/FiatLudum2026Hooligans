@@ -7,13 +7,26 @@ public class MoveBalloon : MonoBehaviour
     [SerializeField] private int health;
     private Vector2 velocity;
     private Rigidbody2D rb;
+    [SerializeField] private float timerVal = 60.0f;
+
+    private float currentTime;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        currentTime = timerVal;
     }
 
     void Update()
     {
+        Debug.Log("timer value");
+        Debug.Log(currentTime);
+
+        if (currentTime <= 0)
+        {
+            Debug.Log("Time's up!");
+        }
+
         Debug.Log("Player health");
         Debug.Log(health);
         // Use left and right arrows, or the A and D keys to move
@@ -25,6 +38,8 @@ public class MoveBalloon : MonoBehaviour
             velocity = new Vector2(1.0f, 0.0f) * Time.fixedDeltaTime * speed;
             rb.MovePosition(rb.position + velocity);
         }
+
+        currentTime -= Time.deltaTime;
     }
 
     void OnCollisionEnter2D(Collision2D other)
