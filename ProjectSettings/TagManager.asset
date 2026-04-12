@@ -7,6 +7,9 @@ TagManager:
   - Enemy
   - BackgroundElement
   - Checkpoint
+  - Dropzone1
+  - Dropzone2
+  - Dropzone3
   layers:
   - Default
   - TransparentFX
