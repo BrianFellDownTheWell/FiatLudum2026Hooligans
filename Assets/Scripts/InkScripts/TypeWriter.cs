@@ -30,7 +30,7 @@ public class Typewriter : MonoBehaviour
         // convert string into character array
         char[] lineCharArray = line.ToCharArray();
 
-        for (int i=1; i< lineCharArray.Length; i++)
+        for (int i=0; i< lineCharArray.Length; i++)
         {
             textBox.text += lineCharArray[i];
 
