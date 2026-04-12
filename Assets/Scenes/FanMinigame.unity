@@ -148,7 +148,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f7d25855d4136d49a992257e0637ea7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fanHealth: 300
+  fanHealth: 200
+  timerVal: 30
 --- !u!4 &441029810
 Transform:
   m_ObjectHideFlags: 0
