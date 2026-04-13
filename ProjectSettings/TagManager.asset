@@ -10,6 +10,12 @@ TagManager:
   - Dropzone1
   - Dropzone2
   - Dropzone3
+  - Dropzone1a
+  - Dropzone1b
+  - Dropzone2a
+  - Dropzone2b
+  - Dropzone3a
+  - Dropzone3b
   layers:
   - Default
   - TransparentFX

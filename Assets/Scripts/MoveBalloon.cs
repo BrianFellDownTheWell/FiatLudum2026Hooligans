@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MoveBalloon : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class MoveBalloon : MonoBehaviour
     [SerializeField] private float timerVal = 60.0f;
 
     private float currentTime;
+
+    public AudioManager man;
 
     void Start()
     {
@@ -27,6 +30,11 @@ public class MoveBalloon : MonoBehaviour
             Debug.Log("Time's up!");
         }
 
+        if (health <= 0) {
+            Debug.Log("U R DED");
+            SceneManager.LoadScene("GameOver");
+        }
+
         Debug.Log("Player health");
         Debug.Log(health);
         // Use left and right arrows, or the A and D keys to move
@@ -37,6 +45,12 @@ public class MoveBalloon : MonoBehaviour
         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)){
             velocity = new Vector2(1.0f, 0.0f) * Time.fixedDeltaTime * speed;
             rb.MovePosition(rb.position + velocity);
+        }
+
+        // This is just to test the level advancing; remove this when done
+        if (Input.GetKey(KeyCode.K))
+        {
+            man.UpdateMusic(2);
         }
 
         currentTime -= Time.deltaTime;

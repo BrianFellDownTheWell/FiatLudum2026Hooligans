@@ -1,13 +1,17 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FanController : MonoBehaviour
 {
-    [SerializeField] private int fanHealth = 150;
-    [SerializeField] private float timerVal = 10.0f;
+    [SerializeField] public int fanHealth = 200;
+    [SerializeField] public float timerVal = 30.0f;
     private float currentTime;
+
+    public AudioManager am;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        SetFanDifficulty();
         currentTime = timerVal;
     }
 
@@ -20,7 +24,7 @@ public class FanController : MonoBehaviour
         if(currentTime <= 0)
         {
             Debug.Log("Time's up!");
-            return;
+            SceneManager.LoadScene("GameOver");
         }
 
         Debug.Log("Fan health");
@@ -32,5 +36,32 @@ public class FanController : MonoBehaviour
         }
 
         currentTime -= Time.deltaTime;
+    }
+
+    public void SetFanDifficulty()
+    {
+        // Get the level from the audio manager
+        int level = am.getLevel();
+
+        // Set the difficulty for the fan depending on the level;
+        // harder difficulties mean more fan health and a shorter
+        // time limit
+        if (level == 1)
+        {
+            fanHealth = 100;
+            timerVal = 40.0f;
+        }
+        if (level == 2)
+        {
+            fanHealth = 150;
+            timerVal = 35.0f;
+        }
+        if (level == 3)
+        {
+            fanHealth = 200;
+            timerVal = 30.0f;
+        }
+
+        Debug.Log("Fan health and timer: " + fanHealth + ", " + timerVal);
     }
 }
