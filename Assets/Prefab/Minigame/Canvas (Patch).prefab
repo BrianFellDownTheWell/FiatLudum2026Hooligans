@@ -358,6 +358,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   successZones: []
+  timerVal: 40
+  isTimerEnabled: 1
+  am: {fileID: 0}
 --- !u!1 &4871749171729000585
 GameObject:
   m_ObjectHideFlags: 0
@@ -447,6 +450,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   successZones: []
+  timerVal: 40
+  isTimerEnabled: 1
+  am: {fileID: 0}
 --- !u!1 &8234222310281094352
 GameObject:
   m_ObjectHideFlags: 0

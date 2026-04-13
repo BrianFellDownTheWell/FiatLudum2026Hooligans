@@ -5,17 +5,17 @@ public class SkyScroll : MonoBehaviour
 {
     [SerializeField] private float scrollSpeed = 0.1f;
 
-    private Material materialInstance;
+    private Renderer rend;
     private Vector2 textureOffset;
 
     private void Awake()
     {
-        materialInstance = GetComponent<Renderer>().material;
+        rend = GetComponent<Renderer>();
     }
 
     private void Update()
     {
         textureOffset.y = Mathf.Repeat(textureOffset.y - scrollSpeed * Time.deltaTime, 1f);
-        materialInstance.SetTextureOffset("_BaseMap", textureOffset);
+        rend.material.SetTextureOffset("_BaseMap", textureOffset);
     }
 }
