@@ -83,10 +83,6 @@ public class GameManager : MonoBehaviour
             StartLevelFlow();
         }
     }
-
-    /// <summary>
-    /// Call from a scene script to kick off the current level's sequence.
-    /// </summary>
     public void StartLevelFlow()
     {
         if (!levelFlowRunning)
