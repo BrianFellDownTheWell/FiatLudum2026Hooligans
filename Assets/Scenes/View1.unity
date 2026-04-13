@@ -2518,8 +2518,8 @@ GameObject:
   - component: {fileID: 1349509383}
   - component: {fileID: 1349509382}
   m_Layer: 5
-  m_Name: VisualNovelCanvas
-  m_TagString: Untagged
+  m_Name: DialogueCanvas
+  m_TagString: DialogueCanvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4151,7 +4151,7 @@ MonoBehaviour:
   fallEndingSceneName: FallEnding
   sunEndingSceneName: SunEnding
   winSceneName: WinScene
-  dialogueCanvas: {fileID: 1349509384}
+  dialogueCanvasName: DialogueCanvas
   OnLevel1Complete:
     m_PersistentCalls:
       m_Calls: []

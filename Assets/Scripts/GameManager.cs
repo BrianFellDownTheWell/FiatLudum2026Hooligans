@@ -37,7 +37,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private string winSceneName = "WinScene";
 
     [Header("Dialogue")]
-    [SerializeField] private Canvas dialogueCanvas;
+    [SerializeField] private string dialogueCanvasName = "DialogueCanvas";
+    private Canvas dialogueCanvas;
 
     [Header("Events (per-level, fires after minigames complete)")]
     public UnityEvent OnLevel1Complete;
@@ -74,7 +75,13 @@ public class GameManager : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (scene.name == levelFlowSceneName)
+        {
+            // Re-find dialogue canvas in the new scene
+            Canvas[] allCanvases = FindObjectsByType<Canvas>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+            dialogueCanvas = System.Array.Find(allCanvases, c => c.gameObject.name == dialogueCanvasName);
+
             StartLevelFlow();
+        }
     }
 
     /// <summary>
@@ -100,7 +107,7 @@ public class GameManager : MonoBehaviour
         if (currentLevel >= 2)
         {
             yield return new WaitForSeconds(delayBetweenMinigames);
-            yield return SpawnAndWaitForMinigame(patchingHolesPrefab);
+            yield return SpawnAndWaitForMinigame(patchingHolesPrefab, false);
             if (!minigameSuccess) { LoadGameOver(); yield break; }
         }
 
@@ -154,7 +161,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private IEnumerator SpawnAndWaitForMinigame(GameObject prefab)
+    private IEnumerator SpawnAndWaitForMinigame(GameObject prefab, bool disableOtherCanvases = true)
     {
         if (prefab == null)
         {
@@ -170,11 +177,14 @@ public class GameManager : MonoBehaviour
         GameObject instance = Instantiate(prefab);
 
         // Disable all existing scene canvases while the minigame is active
-        Canvas[] allCanvases = FindObjectsByType<Canvas>(FindObjectsSortMode.None);
-        Canvas minigameCanvas = instance.GetComponentInChildren<Canvas>();
-        disabledCanvases = System.Array.FindAll(allCanvases, c => c != minigameCanvas && c.enabled);
-        foreach (Canvas c in disabledCanvases)
-            c.enabled = false;
+        if (disableOtherCanvases)
+        {
+            Canvas[] allCanvases = FindObjectsByType<Canvas>(FindObjectsSortMode.None);
+            Canvas minigameCanvas = instance.GetComponentInChildren<Canvas>();
+            disabledCanvases = System.Array.FindAll(allCanvases, c => c != minigameCanvas && c.enabled);
+            foreach (Canvas c in disabledCanvases)
+                c.enabled = false;
+        }
 
         MinigameManager mgr = instance.GetComponentInChildren<MinigameManager>();
 

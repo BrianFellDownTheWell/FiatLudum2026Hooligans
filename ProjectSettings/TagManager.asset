@@ -16,6 +16,7 @@ TagManager:
   - Dropzone2b
   - Dropzone3a
   - Dropzone3b
+  - DialogueCanvas
   layers:
   - Default
   - TransparentFX
