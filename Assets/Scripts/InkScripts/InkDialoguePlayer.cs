@@ -57,6 +57,14 @@ public class InkDialoguePlayer : MonoBehaviour
             if (currentStory.canContinue)
             {
                 string newLine = currentStory.Continue();
+
+                // Skip empty lines (e.g. from variable assignments in Ink)
+                if (string.IsNullOrWhiteSpace(newLine))
+                {
+                    ContinueStory();
+                    return;
+                }
+
                 DisplayLine(newLine);
 
                 // check if we have any tags

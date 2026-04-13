@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -25,18 +26,32 @@ public class GameManager : MonoBehaviour
     [Header("Timing")]
     [SerializeField] private float delayBeforeFirstMinigame = 3f;
     [SerializeField] private float delayBetweenMinigames = 3f;
+    [SerializeField] private float delayBeforeDialogue = 5f;
 
     [Header("Scene Names")]
     [SerializeField] private string openingViewSceneName = "OpeningView";
+    [SerializeField] private string levelFlowSceneName = "View1";
     [SerializeField] private string gameOverSceneName = "GameOver";
+    [SerializeField] private string fallEndingSceneName = "FallEnding";
+    [SerializeField] private string sunEndingSceneName = "SunEnding";
+    [SerializeField] private string winSceneName = "WinScene";
 
     [Header("Dialogue")]
-    [SerializeField] private Canvas dialogueCanvas;
+    [SerializeField] private string dialogueCanvasName = "DialogueCanvas";
+    private Canvas dialogueCanvas;
+
+    [Header("Events (per-level, fires after minigames complete)")]
+    public UnityEvent OnLevel1Complete;
+    public UnityEvent OnLevel2Complete;
+    public UnityEvent OnLevel3Complete;
+    public UnityEvent OnLevel4Complete;
 
     private bool levelFlowRunning;
     private bool waitingForMinigame;
     private bool minigameSuccess;
     private bool waitingForDialogue;
+    private Canvas[] disabledCanvases;
+    private string lastEnding;
 
     private void Awake()
     {
@@ -48,6 +63,25 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == levelFlowSceneName)
+        {
+            // Re-find dialogue canvas in the new scene
+            Canvas[] allCanvases = FindObjectsByType<Canvas>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+            dialogueCanvas = System.Array.Find(allCanvases, c => c.gameObject.name == dialogueCanvasName);
+
+            StartLevelFlow();
+        }
     }
 
     /// <summary>
@@ -73,7 +107,7 @@ public class GameManager : MonoBehaviour
         if (currentLevel >= 2)
         {
             yield return new WaitForSeconds(delayBetweenMinigames);
-            yield return SpawnAndWaitForMinigame(patchingHolesPrefab);
+            yield return SpawnAndWaitForMinigame(patchingHolesPrefab, false);
             if (!minigameSuccess) { LoadGameOver(); yield break; }
         }
 
@@ -93,20 +127,46 @@ public class GameManager : MonoBehaviour
             if (!minigameSuccess) { LoadGameOver(); yield break; }
         }
 
+        // --- Grace period + transition animation ---
+        switch (currentLevel)
+        {
+            case 1: OnLevel1Complete?.Invoke(); break;
+            case 2: OnLevel2Complete?.Invoke(); break;
+            case 3: OnLevel3Complete?.Invoke(); break;
+            case 4: OnLevel4Complete?.Invoke(); break;
+        }
+        yield return new WaitForSeconds(delayBeforeDialogue);
+
         // --- Story Dialogue ---
         yield return RunDialogue();
 
-        // --- Advance to next level ---
-        currentLevel++;
+        // --- Route based on ending ---
         levelFlowRunning = false;
-        SceneManager.LoadScene(openingViewSceneName);
+        switch (lastEnding)
+        {
+            case "pop":
+                SceneManager.LoadScene(fallEndingSceneName);
+                break;
+            case "good":
+                SceneManager.LoadScene(winSceneName);
+                break;
+            case "bad":
+                SceneManager.LoadScene(sunEndingSceneName);
+                break;
+            case "later":
+            default:
+                currentLevel++;
+                SceneManager.LoadScene(openingViewSceneName);
+                break;
+        }
     }
 
-    private IEnumerator SpawnAndWaitForMinigame(GameObject prefab)
+    private IEnumerator SpawnAndWaitForMinigame(GameObject prefab, bool disableOtherCanvases = true)
     {
         if (prefab == null)
         {
-            Debug.LogWarning("GameManager: minigame prefab not assigned, skipping.");
+            Debug.LogWarning("GameManager: minigame prefab not assigned, waiting 3 seconds.");
+            yield return new WaitForSeconds(3f);
             minigameSuccess = true;
             yield break;
         }
@@ -115,6 +175,17 @@ public class GameManager : MonoBehaviour
         minigameSuccess = false;
 
         GameObject instance = Instantiate(prefab);
+
+        // Disable all existing scene canvases while the minigame is active
+        if (disableOtherCanvases)
+        {
+            Canvas[] allCanvases = FindObjectsByType<Canvas>(FindObjectsSortMode.None);
+            Canvas minigameCanvas = instance.GetComponentInChildren<Canvas>();
+            disabledCanvases = System.Array.FindAll(allCanvases, c => c != minigameCanvas && c.enabled);
+            foreach (Canvas c in disabledCanvases)
+                c.enabled = false;
+        }
+
         MinigameManager mgr = instance.GetComponentInChildren<MinigameManager>();
 
         if (mgr != null)
@@ -134,6 +205,16 @@ public class GameManager : MonoBehaviour
 
     private void HandleMinigameComplete(bool success)
     {
+        // Re-enable scene canvases
+        if (disabledCanvases != null)
+        {
+            foreach (Canvas c in disabledCanvases)
+            {
+                if (c != null) c.enabled = true;
+            }
+            disabledCanvases = null;
+        }
+
         minigameSuccess = success;
         waitingForMinigame = false;
     }
@@ -175,6 +256,10 @@ public class GameManager : MonoBehaviour
             yield return null;
 
         dialoguePlayer.onStoryEnd.RemoveListener(OnDialogueEnd);
+
+        // Read ending variable from Ink
+        lastEnding = dialoguePlayer.currentStory.variablesState["ending"]?.ToString() ?? "later";
+
         if (dialogueCanvas != null)
             dialogueCanvas.gameObject.SetActive(false);
     }

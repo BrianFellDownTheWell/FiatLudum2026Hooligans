@@ -1,6 +1,7 @@
 // Dragon Dialogue - Zenith
+VAR ending = ""
 
-Zenith: "FUCK YOU. Watch where you're flying jackass. You almost tore a hole in my wing!" #portrait:dragon
+Dragon: "FUCK YOU. Watch where you're flying jackass. You almost tore a hole in my wing!" #portrait:dragon
 
 * [What the hell? You almost flew into me!]
     Dragon: "Oh, so you're a fucking liar. I kind of live in the sky cause I'm a fucking dragon, so I was here first." #portrait:dragon
@@ -87,17 +88,15 @@ Zenith: "FUCK YOU. Watch where you're flying jackass. You almost tore a hole in 
     Dragon: "Oh. Yeah, I probably wouldn't forgive myself either, heh." #portrait:dragon
     Dragon: "Welp, take care. If you need me, I'll be there. Even if I'm ass at showing it, I love you." #portrait:dragon
     Dragon: "Heh. Fuck me." #portrait:dragon
-    -> end_apart
+    -> end_later
 
 
 = end_pop
+~ ending = "pop"
 // Pop it ending
 -> END
 
 = end_later
+~ ending = "later"
 // Later ending
--> END
-
-= end_apart
-// Apart ending
 -> END

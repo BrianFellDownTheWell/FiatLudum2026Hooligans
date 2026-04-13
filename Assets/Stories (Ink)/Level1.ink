@@ -1,4 +1,5 @@
 // Bird Dialogue - Zenith
+VAR ending = ""
 
 Bird: "Hey, it's been a while, hasn't it?" #portrait:bird
 
@@ -51,17 +52,15 @@ Bird: "Hey, it's been a while, hasn't it?" #portrait:bird
     Bird: "Maybe I'm selfish— no, I definitely am, but please at least remember me every once in a while?" #portrait:bird
     Bird: "If we can't be together on this journey, the fact that our journeys crossed paths is something we can celebrate." #portrait:bird
     Bird: "I know I will celebrate." #portrait:bird
-    -> end_apart
+    -> end_later
 
 
 = end_pop
+~ ending = "pop"
 // Pop it ending
 -> END
 
 = end_later
+~ ending = "later"
 // Later ending
--> END
-
-= end_apart
-// Apart ending
 -> END
