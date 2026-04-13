@@ -46,4 +46,9 @@ public class AudioManager : MonoBehaviour
         musicSrc.loop = true;
         musicSrc.Play();
     }
+
+    public int getLevel()
+    {
+        return level;
+    }
 }
