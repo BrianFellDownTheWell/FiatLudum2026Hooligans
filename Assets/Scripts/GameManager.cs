@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
     [Header("Scene Names")]
     [SerializeField] private string openingViewSceneName = "OpeningView";
     [SerializeField] private string levelFlowSceneName = "View1";
-    [SerializeField] private string gameOverSceneName = "GameOver";
+    [SerializeField] private string gameOverSceneName = "FallEnding";
     [SerializeField] private string fallEndingSceneName = "FallEnding";
     [SerializeField] private string sunEndingSceneName = "SunEnding";
     [SerializeField] private string winSceneName = "WinScene";
@@ -83,10 +83,6 @@ public class GameManager : MonoBehaviour
             StartLevelFlow();
         }
     }
-
-    /// <summary>
-    /// Call from a scene script to kick off the current level's sequence.
-    /// </summary>
     public void StartLevelFlow()
     {
         if (!levelFlowRunning)
