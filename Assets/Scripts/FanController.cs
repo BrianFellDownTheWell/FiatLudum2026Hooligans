@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FanController : MonoBehaviour
 {
@@ -20,7 +21,7 @@ public class FanController : MonoBehaviour
         if(currentTime <= 0)
         {
             Debug.Log("Time's up!");
-            return;
+            SceneManager.LoadScene("GameOver");
         }
 
         Debug.Log("Fan health");

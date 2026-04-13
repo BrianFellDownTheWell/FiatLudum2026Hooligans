@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TeaManager : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class TeaManager : MonoBehaviour
         if (currentTime <= 0)
         {
             Debug.Log("Time's up!");
+            SceneManager.LoadScene("GameOver");
         }
         currentTime -= Time.deltaTime;
     }
