@@ -27,7 +27,7 @@ public class MoveBalloon : MonoBehaviour
 
         if (currentTime <= 0)
         {
-            Debug.Log("Time's up!");
+            Debug.Log("Time's up! Completed dodge obstacles minigame");
         }
 
         if (health <= 0) {

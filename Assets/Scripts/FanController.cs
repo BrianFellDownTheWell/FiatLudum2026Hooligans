@@ -29,6 +29,10 @@ public class FanController : MonoBehaviour
 
         Debug.Log("Fan health");
         Debug.Log(fanHealth);
+        if (fanHealth <= 0)
+        {
+            Debug.Log("Completed fan minigame");
+        }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {

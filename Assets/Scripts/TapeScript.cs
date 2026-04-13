@@ -27,13 +27,17 @@ public class TapeScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     private TapeScript activeDragScript;
 
     [SerializeField] public float timerVal = 40.0f;
+    [SerializeField] public int targetPatches;
     private float currentTime;
     public bool isTimerEnabled = true;
 
     public AudioManager am;
 
+    private int currentPatches;
     private void Awake()
     {
+        currentPatches = 0;
+
         SetTapeDifficulty();
         currentTime = timerVal;
         isTimerEnabled = true;
@@ -141,6 +145,11 @@ public class TapeScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
                 Debug.Log("Stuck onto zone: " + zone.name);
                 activeDragScript = null;
                 currentDragGuy = null;
+                currentPatches++;
+                if(currentPatches >= targetPatches)
+                {
+                    Debug.Log("Patched all holes.");
+                }
                 return;
             }
         }

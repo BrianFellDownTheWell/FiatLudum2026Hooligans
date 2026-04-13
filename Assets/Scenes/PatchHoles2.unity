@@ -1345,6 +1345,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   successZones: []
   timerVal: 40
+  targetPatches: 7
   isTimerEnabled: 1
   am: {fileID: 873351774}
 --- !u!114 &1979911250
