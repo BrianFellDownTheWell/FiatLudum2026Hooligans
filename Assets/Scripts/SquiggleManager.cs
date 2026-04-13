@@ -26,7 +26,7 @@ public class SquiggleManager : MonoBehaviour
         if (currentTime <= 0)
         {
             Debug.Log("Time's up!");
-            SceneManager.LoadScene("GameOver");
+            SceneManager.LoadScene("FallEnding");
         }
 
         currentTime -= Time.deltaTime;

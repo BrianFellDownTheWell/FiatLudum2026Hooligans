@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
     [Header("Scene Names")]
     [SerializeField] private string openingViewSceneName = "OpeningView";
     [SerializeField] private string levelFlowSceneName = "View1";
-    [SerializeField] private string gameOverSceneName = "GameOver";
+    [SerializeField] private string gameOverSceneName = "FallEnding";
     [SerializeField] private string fallEndingSceneName = "FallEnding";
     [SerializeField] private string sunEndingSceneName = "SunEnding";
     [SerializeField] private string winSceneName = "WinScene";

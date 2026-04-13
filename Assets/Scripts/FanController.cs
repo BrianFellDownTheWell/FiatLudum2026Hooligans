@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class FanController : MonoBehaviour
 {
-    [SerializeField] public int fanHealth = 200;
+    [SerializeField] public int fanHealth = 100;
     [SerializeField] public float timerVal = 30.0f;
     [SerializeField] private TMP_Text timerText;
     [SerializeField] private TMP_Text healthText;
@@ -45,7 +45,7 @@ public class FanController : MonoBehaviour
             if (minigameManager != null)
                 minigameManager.Lose();
             else
-                SceneManager.LoadScene("GameOver");
+                SceneManager.LoadScene("FallEnding");
             return;
         }
 
@@ -101,6 +101,12 @@ public class FanController : MonoBehaviour
 
     public void SetFanDifficulty()
     {
+        if (am == null)
+        {
+            Debug.LogWarning("FanController: AudioManager not assigned, using defaults.");
+            return;
+        }
+
         // Get the level from the audio manager
         int level = am.getLevel();
 

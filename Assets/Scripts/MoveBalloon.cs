@@ -32,7 +32,7 @@ public class MoveBalloon : MonoBehaviour
 
         if (health <= 0) {
             Debug.Log("U R DED");
-            SceneManager.LoadScene("GameOver");
+            SceneManager.LoadScene("FallEnding");
         }
 
         Debug.Log("Player health");
