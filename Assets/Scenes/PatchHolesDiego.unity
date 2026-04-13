@@ -1675,8 +1675,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   successZones: []
-  timerVal: 40
-  isTimerEnabled: 1
 --- !u!222 &8548715174622082834
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1744,8 +1742,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   successZones: []
-  timerVal: 40
-  isTimerEnabled: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
