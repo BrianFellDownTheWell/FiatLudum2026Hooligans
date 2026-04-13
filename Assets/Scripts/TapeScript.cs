@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
 
 [RequireComponent(typeof(RectTransform))]
 public class TapeScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
@@ -31,18 +33,22 @@ public class TapeScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     public bool isTimerEnabled = true;
 
     public AudioManager am;
+    [SerializeField] private TMP_Text timerText;
+    [SerializeField] private Sprite[] dragSprites;
 
+    private MinigameManager minigameManager;
     private int currentPatches;
     private void Awake()
     {
         currentPatches = 0;
 
-        SetTapeDifficulty();
+        //SetTapeDifficulty();
         currentTime = timerVal;
         isTimerEnabled = true;
 
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
+        minigameManager = GetComponentInParent<MinigameManager>();
         dragArea = rectTransform.parent as RectTransform;
         canvasGroup = GetComponent<CanvasGroup>();
         originalPosition = rectTransform.localPosition;
@@ -73,6 +79,21 @@ public class TapeScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         }
     }
 
+    private void Update()
+    {
+        if (!isTapeSource || !isTimerEnabled) return;
+
+        currentTime -= Time.deltaTime;
+        if (timerText != null)
+            timerText.text = Mathf.CeilToInt(currentTime).ToString();
+        if (currentTime <= 0f)
+        {
+            isTimerEnabled = false;
+            if (minigameManager != null)
+                minigameManager.Lose();
+        }
+    }
+
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (dragArea == null)
@@ -91,6 +112,13 @@ public class TapeScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
             activeDragScript.isTapeSource = false;
             activeDragScript.originalPosition = currentDragGuy.localPosition;
             activeDragScript.successZones = successZones;
+
+            if (dragSprites != null && dragSprites.Length > 0)
+            {
+                Image img = duplicate.GetComponent<Image>();
+                if (img != null) img.sprite = dragSprites[Random.Range(0, dragSprites.Length)];
+            }
+
             currentDragGuy.SetAsLastSibling();
             
         }
@@ -144,19 +172,19 @@ public class TapeScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
                 currentPatches++;
                 if(currentPatches >= targetPatches)
                 {
-                    Debug.Log("Patched all holes.");
+                    isTimerEnabled = false;
+                    if (minigameManager != null)
+                        minigameManager.Win();
                 }
                 return;
             }
         }
-        // If not snapped to any zone, return to original position
-
-        if (!isTapeSource)
+        // If not snapped to any zone, destroy the duplicate
+        if (currentDragGuy != null)
         {
             Destroy(currentDragGuy.gameObject);
         }
-        else {
-            currentDragGuy.localPosition = originalPosition;
-        }
+        activeDragScript = null;
+        currentDragGuy = null;
     }
 }

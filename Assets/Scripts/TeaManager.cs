@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class TeaManager : MonoBehaviour
 {
@@ -10,10 +9,13 @@ public class TeaManager : MonoBehaviour
     [SerializeField] private float timerVal = 10.0f;
 
     private float currentTime;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    private MinigameManager minigameManager;
+
     void Start()
     {
         currentTime = timerVal;
+        minigameManager = GetComponentInParent<MinigameManager>();
     }
 
     // Update is called once per frame
@@ -25,7 +27,10 @@ public class TeaManager : MonoBehaviour
         if (currentTime <= 0)
         {
             Debug.Log("Time's up!");
-            SceneManager.LoadScene("GameOver");
+            if (minigameManager != null)
+                minigameManager.Lose();
+            enabled = false;
+            return;
         }
         currentTime -= Time.deltaTime;
     }
@@ -35,6 +40,8 @@ public class TeaManager : MonoBehaviour
         currentObjCount++;
         if (currentObjCount >= targetObjCount) {
             Debug.Log("Completed tea minigame");
+            if (minigameManager != null)
+                minigameManager.Win();
         }
     }
 }

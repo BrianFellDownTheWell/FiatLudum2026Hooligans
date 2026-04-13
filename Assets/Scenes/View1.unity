@@ -3652,7 +3652,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentLevel: 1
   teaSetPrefab: {fileID: 0}
-  patchingHolesPrefab: {fileID: 0}
+  patchingHolesPrefab: {fileID: 9150431148828536016, guid: f194c9b5d81909b4989e5c03bb8bfdfd, type: 3}
   fanningFlamesPrefab: {fileID: 0}
   dodgingObstaclesPrefab: {fileID: 0}
   storyJSONPerLevel:

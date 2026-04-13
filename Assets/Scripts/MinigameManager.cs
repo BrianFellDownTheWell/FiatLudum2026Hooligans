@@ -15,6 +15,7 @@ public class MinigameManager : MonoBehaviour
     /// </summary>
     public void Win()
     {
+        Debug.Log("Player won minigame");
         OnMinigameComplete?.Invoke(true);
         Destroy(gameObject);
     }
@@ -25,6 +26,7 @@ public class MinigameManager : MonoBehaviour
     /// </summary>
     public void Lose()
     {
+        Debug.Log("Player lost minigame");
         OnMinigameComplete?.Invoke(false);
         Destroy(gameObject);
     }
