@@ -1,4 +1,5 @@
 using UnityEngine;
+using TMPro;
 
 public class TeaManager : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class TeaManager : MonoBehaviour
     private int currentObjCount = 0;
 
     [SerializeField] private float timerVal = 10.0f;
+    [SerializeField] private TMP_Text timerText;
 
     private float currentTime;
 
@@ -22,7 +24,9 @@ public class TeaManager : MonoBehaviour
     void Update()
     {
         Debug.Log("timer value");
-        Debug.Log(currentTime);
+
+        if (timerText != null)
+            timerText.text = Mathf.CeilToInt(currentTime).ToString();
 
         if (currentTime <= 0)
         {

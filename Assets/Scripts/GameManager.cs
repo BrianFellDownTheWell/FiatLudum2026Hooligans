@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -25,18 +26,27 @@ public class GameManager : MonoBehaviour
     [Header("Timing")]
     [SerializeField] private float delayBeforeFirstMinigame = 3f;
     [SerializeField] private float delayBetweenMinigames = 3f;
+    [SerializeField] private float delayBeforeDialogue = 5f;
 
     [Header("Scene Names")]
     [SerializeField] private string openingViewSceneName = "OpeningView";
+    [SerializeField] private string levelFlowSceneName = "View1";
     [SerializeField] private string gameOverSceneName = "GameOver";
 
     [Header("Dialogue")]
     [SerializeField] private Canvas dialogueCanvas;
 
+    [Header("Events (per-level, fires after minigames complete)")]
+    public UnityEvent OnLevel1Complete;
+    public UnityEvent OnLevel2Complete;
+    public UnityEvent OnLevel3Complete;
+    public UnityEvent OnLevel4Complete;
+
     private bool levelFlowRunning;
     private bool waitingForMinigame;
     private bool minigameSuccess;
     private bool waitingForDialogue;
+    private Canvas[] disabledCanvases;
 
     private void Awake()
     {
@@ -48,6 +58,19 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == levelFlowSceneName)
+            StartLevelFlow();
     }
 
     /// <summary>
@@ -93,6 +116,16 @@ public class GameManager : MonoBehaviour
             if (!minigameSuccess) { LoadGameOver(); yield break; }
         }
 
+        // --- Grace period + transition animation ---
+        switch (currentLevel)
+        {
+            case 1: OnLevel1Complete?.Invoke(); break;
+            case 2: OnLevel2Complete?.Invoke(); break;
+            case 3: OnLevel3Complete?.Invoke(); break;
+            case 4: OnLevel4Complete?.Invoke(); break;
+        }
+        yield return new WaitForSeconds(delayBeforeDialogue);
+
         // --- Story Dialogue ---
         yield return RunDialogue();
 
@@ -115,6 +148,14 @@ public class GameManager : MonoBehaviour
         minigameSuccess = false;
 
         GameObject instance = Instantiate(prefab);
+
+        // Disable all existing scene canvases while the minigame is active
+        Canvas[] allCanvases = FindObjectsByType<Canvas>(FindObjectsSortMode.None);
+        Canvas minigameCanvas = instance.GetComponentInChildren<Canvas>();
+        disabledCanvases = System.Array.FindAll(allCanvases, c => c != minigameCanvas && c.enabled);
+        foreach (Canvas c in disabledCanvases)
+            c.enabled = false;
+
         MinigameManager mgr = instance.GetComponentInChildren<MinigameManager>();
 
         if (mgr != null)
@@ -134,6 +175,16 @@ public class GameManager : MonoBehaviour
 
     private void HandleMinigameComplete(bool success)
     {
+        // Re-enable scene canvases
+        if (disabledCanvases != null)
+        {
+            foreach (Canvas c in disabledCanvases)
+            {
+                if (c != null) c.enabled = true;
+            }
+            disabledCanvases = null;
+        }
+
         minigameSuccess = success;
         waitingForMinigame = false;
     }

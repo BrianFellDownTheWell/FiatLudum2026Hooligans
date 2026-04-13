@@ -94,23 +94,23 @@ Yourself on the Moon: "I'm everyone's favorite. Hehe. Guess I gotta return the q
     * * [Pop it.]
         -> end_pop
     * * [Later.]
-        -> end_later
+        -> end_good
 
 * [I have to go.]
     Yourself on the Moon: "Honestly, even though you're me, I don't understand you. Growing up is a weird thing." #portrait:moon
     Yourself on the Moon: "But you're still cool. I hope you find what we're looking for." #portrait:moon
     Yourself on the Moon: "See you in a few years!" #portrait:moon
-    -> end_apart
+    -> bad_end
 
 
 = end_pop
 // Pop it ending
 -> END
 
-= end_later
-// Later ending
+= end_good
+// good ending
 -> END
 
-= end_apart
-// Goodbye ending
+= bad_end
+// bad ending
 -> END
