@@ -32,6 +32,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private string openingViewSceneName = "OpeningView";
     [SerializeField] private string levelFlowSceneName = "View1";
     [SerializeField] private string gameOverSceneName = "GameOver";
+    [SerializeField] private string fallEndingSceneName = "FallEnding";
+    [SerializeField] private string sunEndingSceneName = "SunEnding";
+    [SerializeField] private string winSceneName = "WinScene";
 
     [Header("Dialogue")]
     [SerializeField] private Canvas dialogueCanvas;
@@ -47,6 +50,7 @@ public class GameManager : MonoBehaviour
     private bool minigameSuccess;
     private bool waitingForDialogue;
     private Canvas[] disabledCanvases;
+    private string lastEnding;
 
     private void Awake()
     {
@@ -129,10 +133,25 @@ public class GameManager : MonoBehaviour
         // --- Story Dialogue ---
         yield return RunDialogue();
 
-        // --- Advance to next level ---
-        currentLevel++;
+        // --- Route based on ending ---
         levelFlowRunning = false;
-        SceneManager.LoadScene(openingViewSceneName);
+        switch (lastEnding)
+        {
+            case "pop":
+                SceneManager.LoadScene(fallEndingSceneName);
+                break;
+            case "good":
+                SceneManager.LoadScene(winSceneName);
+                break;
+            case "bad":
+                SceneManager.LoadScene(sunEndingSceneName);
+                break;
+            case "later":
+            default:
+                currentLevel++;
+                SceneManager.LoadScene(openingViewSceneName);
+                break;
+        }
     }
 
     private IEnumerator SpawnAndWaitForMinigame(GameObject prefab)
@@ -226,6 +245,10 @@ public class GameManager : MonoBehaviour
             yield return null;
 
         dialoguePlayer.onStoryEnd.RemoveListener(OnDialogueEnd);
+
+        // Read ending variable from Ink
+        lastEnding = dialoguePlayer.currentStory.variablesState["ending"]?.ToString() ?? "later";
+
         if (dialogueCanvas != null)
             dialogueCanvas.gameObject.SetActive(false);
     }

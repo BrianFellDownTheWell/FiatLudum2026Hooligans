@@ -1,4 +1,5 @@
 // Roll Cat Dialogue - Zenith
+VAR ending = ""
 
 Roll Cat: "Oh golly! Is that my favorite junior baker??? Oh my goodness, it's been so long, I've missed you!" #portrait:rollcat
 Roll Cat: "Are you still baking? Oh, I'm sure you are, you were so happy in the kitchen." #portrait:rollcat
@@ -92,9 +93,11 @@ Roll Cat: "Oh good heavens, I need to try your macarons again! And your tarts, a
 
 
 = end_pop
+~ ending = "pop"
 // Pop it ending
 -> END
 
 = end_later
+~ ending = "later"
 // Later ending
 -> END

@@ -1,4 +1,5 @@
 // Yourself on the Moon Dialogue - Zenith
+VAR ending = ""
 
 Yourself on the Moon: "Woah, your eyes are so pretty!" #portrait:moon
 Yourself on the Moon: "Who are you?" #portrait:moon
@@ -104,13 +105,16 @@ Yourself on the Moon: "I'm everyone's favorite. Hehe. Guess I gotta return the q
 
 
 = end_pop
+~ ending = "pop"
 // Pop it ending
 -> END
 
 = end_good
+~ ending = "good"
 // good ending
 -> END
 
 = bad_end
+~ ending = "bad"
 // bad ending
 -> END

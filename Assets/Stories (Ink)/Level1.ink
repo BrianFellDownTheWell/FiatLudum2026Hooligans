@@ -1,4 +1,5 @@
 // Bird Dialogue - Zenith
+VAR ending = ""
 
 Bird: "Hey, it's been a while, hasn't it?" #portrait:bird
 
@@ -55,9 +56,11 @@ Bird: "Hey, it's been a while, hasn't it?" #portrait:bird
 
 
 = end_pop
+~ ending = "pop"
 // Pop it ending
 -> END
 
 = end_later
+~ ending = "later"
 // Later ending
 -> END

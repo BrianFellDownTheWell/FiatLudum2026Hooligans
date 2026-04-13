@@ -1,4 +1,5 @@
 // Dragon Dialogue - Zenith
+VAR ending = ""
 
 Zenith: "FUCK YOU. Watch where you're flying jackass. You almost tore a hole in my wing!" #portrait:dragon
 
@@ -91,9 +92,11 @@ Zenith: "FUCK YOU. Watch where you're flying jackass. You almost tore a hole in 
 
 
 = end_pop
+~ ending = "pop"
 // Pop it ending
 -> END
 
 = end_later
+~ ending = "later"
 // Later ending
 -> END
