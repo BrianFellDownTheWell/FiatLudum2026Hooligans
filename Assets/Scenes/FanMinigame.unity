@@ -150,6 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fanHealth: 200
   timerVal: 30
+  am: {fileID: 1240330383}
 --- !u!4 &441029810
 Transform:
   m_ObjectHideFlags: 0
@@ -435,6 +436,17 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!114 &1240330383 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4520905851783172574, guid: d5b54ffc37e96674da75bb1877933fcd, type: 3}
+  m_PrefabInstance: {fileID: 496562492}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 868740827b8eae64a94f1408298af9ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
