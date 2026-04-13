@@ -12,6 +12,8 @@ EditorBuildSettings:
     path: Assets/Scenes/View1.unity
     guid: 6486f7dc5d6091246a43118c2c0a7850
   - enabled: 1
+    path: Assets/Scenes/TitleScreen.unity
+    guid: 006922a705a8254489b38596646d522c
     path: Assets/Scenes/FanMinigame.unity
     guid: acf4cabfbd5efa94b9468773e1f50f1e
   - enabled: 1

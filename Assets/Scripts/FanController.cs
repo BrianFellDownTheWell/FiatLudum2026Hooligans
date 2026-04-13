@@ -30,7 +30,7 @@ public class FanController : MonoBehaviour
         Debug.Log("Fan health");
         Debug.Log(fanHealth);
 
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             fanHealth -= 1;
         }
