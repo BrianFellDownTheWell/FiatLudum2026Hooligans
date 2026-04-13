@@ -26,6 +26,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SunEnding.unity
     guid: 38637bf6c37cc374bac9cf7ddaef13fe
+  - enabled: 1
+    path: Assets/Scenes/Note.unity
+    guid: 7350c23243d29cf44a527892ca8f7bf2
+  - enabled: 1
+    path: Assets/Scenes/OpeningView.unity
+    guid: 4bd4d049cefa33e46b6bb43c515ffa59
+  - enabled: 1
+    path: Assets/Scenes/FallEnding.unity
+    guid: 8cb63e3599b332d43852043568c1d6f6
+  - enabled: 1
+    path: Assets/Scenes/WinScene.unity
+    guid: 840050026c9e7e44caa26f33712b6e96
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

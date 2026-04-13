@@ -1,7 +1,7 @@
 // Dragon Dialogue - Zenith
 VAR ending = ""
 
-Zenith: "FUCK YOU. Watch where you're flying jackass. You almost tore a hole in my wing!" #portrait:dragon
+Dragon: "FUCK YOU. Watch where you're flying jackass. You almost tore a hole in my wing!" #portrait:dragon
 
 * [What the hell? You almost flew into me!]
     Dragon: "Oh, so you're a fucking liar. I kind of live in the sky cause I'm a fucking dragon, so I was here first." #portrait:dragon

@@ -158,7 +158,8 @@ public class GameManager : MonoBehaviour
     {
         if (prefab == null)
         {
-            Debug.LogWarning("GameManager: minigame prefab not assigned, skipping.");
+            Debug.LogWarning("GameManager: minigame prefab not assigned, waiting 3 seconds.");
+            yield return new WaitForSeconds(3f);
             minigameSuccess = true;
             yield break;
         }
