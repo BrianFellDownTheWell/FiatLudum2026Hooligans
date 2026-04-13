@@ -24,7 +24,7 @@ EditorBuildSettings:
     path: Assets/Scenes/RopeMinigame.unity
     guid: 5c35bd43f6ef12b488458b6e9195c9ef
   - enabled: 1
-    path: Assets/Scenes/FallEnding.unity
+    path: Assets/Scenes/SunEnding.unity
     guid: 38637bf6c37cc374bac9cf7ddaef13fe
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
