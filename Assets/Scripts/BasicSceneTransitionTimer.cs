@@ -2,9 +2,10 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class BasicSceneTransition : MonoBehaviour
+public class BasicSceneTransitionTimer : MonoBehaviour
 {
     [SerializeField] private string sceneName;
+    [SerializeField] private float delayBeforeLoad = 2f;
     [SerializeField] private Canvas transitionCanvas;
     [SerializeField] private RectTransform topBar;
     [SerializeField] private RectTransform bottomBar;
@@ -12,6 +13,17 @@ public class BasicSceneTransition : MonoBehaviour
     [SerializeField] private float openSpeed = 0.3f;
 
     private bool isTransitioning;
+
+    void Start()
+    {
+        StartCoroutine(LoadSceneAfterDelay());
+    }
+
+    private IEnumerator LoadSceneAfterDelay()
+    {
+        yield return new WaitForSeconds(delayBeforeLoad);
+        LoadScene();
+    }
 
     public void LoadScene()
     {
