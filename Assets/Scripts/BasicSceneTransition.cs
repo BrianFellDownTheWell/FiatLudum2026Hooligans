@@ -1,22 +1,15 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class BasicSceneTransition : MonoBehaviour
+public class SceneScript : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [SerializeField] private string sceneName;
 
-    // Update is called once per frame
-    void Update()
+    public void LoadScene()
     {
-        
-    }
-
-    void loadScene(string sceneName)
-    {
+        // the scene name is defined in the editor.
         SceneManager.LoadScene(sceneName);
     }
 }
