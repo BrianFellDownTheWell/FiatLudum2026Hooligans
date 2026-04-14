@@ -92,7 +92,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1158887316608352896
 RectTransform:
   m_ObjectHideFlags: 0
@@ -618,7 +618,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f7d25855d4136d49a992257e0637ea7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fanHealth: 200
+  fanHealth: 80
   timerVal: 30
   timerText: {fileID: 9080864104966524547}
   healthText: {fileID: 5951425902910991225}

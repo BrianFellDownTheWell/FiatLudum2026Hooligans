@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviour
         if (currentLevel >= 3)
         {
             yield return new WaitForSeconds(delayBetweenMinigames);
-            yield return SpawnAndWaitForMinigame(fanningFlamesPrefab);
+            yield return SpawnAndWaitForMinigame(fanningFlamesPrefab, false);
             if (!minigameSuccess) { LoadGameOver(); yield break; }
         }
 
@@ -169,6 +169,10 @@ public class GameManager : MonoBehaviour
 
         waitingForMinigame = true;
         minigameSuccess = false;
+
+        // Reset camera rotation before minigame starts
+        if (Camera.main != null)
+            Camera.main.transform.rotation = Quaternion.identity;
 
         GameObject instance = Instantiate(prefab);
 

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using TMPro;
 
 public class Spawner : MonoBehaviour
 {
@@ -8,18 +9,43 @@ public class Spawner : MonoBehaviour
     public GameObject hazard;
     public float spawnInterval;
     public float xRange = 8f; // how far left/right hazards can spawn
+    public float surviveTime = 30f;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField] private TMP_Text timerText;
+
+    private float timer;
+    private MinigameManager minigameManager;
+    private bool finished;
+
     void Start()
     {
-        // Repeatedly spawn enemies every spawn interval
+        minigameManager = GetComponentInParent<MinigameManager>();
+        timer = surviveTime;
+        UpdateTimerDisplay();
         InvokeRepeating("Spawn", 0f, spawnInterval);    
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (finished) return;
+
+        timer -= Time.deltaTime;
+        timer = Mathf.Max(timer, 0f);
+        UpdateTimerDisplay();
+
+        if (timer <= 0f)
+        {
+            finished = true;
+            CancelInvoke("Spawn");
+            if (minigameManager != null)
+                minigameManager.Win();
+        }
+    }
+
+    private void UpdateTimerDisplay()
+    {
+        if (timerText != null)
+            timerText.text = Mathf.CeilToInt(timer).ToString();
     }
 
     void Spawn()
@@ -35,7 +61,7 @@ public class Spawner : MonoBehaviour
         Vector3 spawnPosition = new Vector3(randomX, transform.position.y + 10f, 0);
         Debug.Log("Spawn triggered at: " + Time.time);
         // The instantiated hazard instance
-        GameObject hazardInst = Instantiate(hazard, spawnPosition, Quaternion.identity);
+        GameObject hazardInst = Instantiate(hazard, spawnPosition, Quaternion.identity, transform.parent);
         // Assign the instance to one of the possible sprite types
         if (hazardSprites.Count > 0)
         {

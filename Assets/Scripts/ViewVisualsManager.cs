@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ViewVisualsManager : MonoBehaviour
 {
@@ -7,11 +8,13 @@ public class ViewVisualsManager : MonoBehaviour
     {
         public Material quadMaterialA;
         public Material quadMaterialB;
+        public Sprite levelImage;
     }
 
     [SerializeField] private LevelVisuals[] levels = new LevelVisuals[4];
     [SerializeField] private Renderer quadRendererA;
     [SerializeField] private Renderer quadRendererB;
+    [SerializeField] private Image levelImageDisplay;
 
     void Start()
     {
@@ -29,5 +32,8 @@ public class ViewVisualsManager : MonoBehaviour
 
         if (quadRendererB != null && data.quadMaterialB != null)
             quadRendererB.material = data.quadMaterialB;
+
+        if (levelImageDisplay != null && data.levelImage != null)
+            levelImageDisplay.sprite = data.levelImage;
     }
 }

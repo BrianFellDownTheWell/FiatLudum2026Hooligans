@@ -12,7 +12,11 @@ public class CameraFlip : MonoBehaviour
 
     public float openSpeed = 0.3f;
 
+    [Header("Flip-dependent UI")]
+    [SerializeField] private GameObject flippedUIObject;
+
     private bool isTransitioning;
+    private bool isFlipped;
 
     public void Flip()
     {
@@ -45,6 +49,10 @@ public class CameraFlip : MonoBehaviour
         // flip camera while eyes are closed
         if (cameraToFlip != null)
             cameraToFlip.transform.Rotate(0f, 180f, 0f);
+
+        isFlipped = !isFlipped;
+        if (flippedUIObject != null)
+            flippedUIObject.SetActive(isFlipped);
 
         yield return new WaitForSecondsRealtime(0.05f);
 

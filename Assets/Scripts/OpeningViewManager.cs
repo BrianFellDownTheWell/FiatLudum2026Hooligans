@@ -47,5 +47,8 @@ public class OpeningViewManager : MonoBehaviour
 
         if (levelLabel != null)
             levelLabel.text = data.levelText;
+
+        if (level == 4 && levelLabel != null)
+            levelLabel.color = Color.white;
     }
 }
